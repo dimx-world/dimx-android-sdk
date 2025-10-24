@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'world.dimx.core'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 28
+        targetSdk 36
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs += ['res']
+            assets.srcDirs += ['assets']
+            jniLibs.srcDirs += ['jni']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
+
+    publishing {
+        singleVariant("release")
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.dimx-world'
+                artifactId = 'dimx-android-sdk'
+                version = VERSION_NAME
+            }
+        }
+    }
+}
+
+dependencies {
+    api files('classes.jar')
+    api 'com.google.ar:core:1.50.0'
+    api 'androidx.appcompat:appcompat:1.7.1'
+    api 'androidx.constraintlayout:constraintlayout:2.2.1'
+    api 'com.google.code.gson:gson:2.13.1'
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.2.29'
+}
+
+println ">>> VERSION_NAME = ${VERSION_NAME}"
