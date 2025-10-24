@@ -48,6 +48,7 @@ afterEvaluate {
 dependencies {
     api files('classes.jar')
     api 'com.google.ar:core:1.50.0'
+    api "com.google.android.play:app-update:2.1.0"
     api 'androidx.appcompat:appcompat:1.7.1'
     api 'androidx.constraintlayout:constraintlayout:2.2.1'
     api 'com.google.code.gson:gson:2.13.1'
