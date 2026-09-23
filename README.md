@@ -32,6 +32,32 @@ dependencies {
 > 💡 Replace **Tag** with the latest release version.  
 > You can check the latest version badge above or visit [JitPack.io](https://jitpack.io/#dimx-world/dimx-android-sdk).
 
+## When a build must update
+
+Every connection the SDK opens begins by telling the platform what this
+build is - app, version, version code and the protocol it speaks - and the
+platform answers with its verdict on the build, if it has one. Nothing is
+sent about the holder, and this happens whether or not telemetry is on.
+Nothing waits for it either; the verdict arrives at the one handler the app sets:
+
+```java
+Context.inst().setClientUpdateHandler(update -> {
+    if (update.isRequired()) { /* stop and say so */ }
+    else if (update.shouldPrompt()) { /* a nudge, at your own pace */ update.markPrompted(); }
+});
+```
+
+`required` is a rare case: the platform has moved past this build. The SDK
+refuses every request from then on (`E1003`), and `showARScreen` opens
+nothing - it runs the handler set with
+`Context.inst().setUpdateRequiredHandler(...)` when the app set one, and
+shows its own dialog with the store link when it did not.
+`Context.updateStatus()` says where the build stands at any time - `Unknown`
+until the platform has answered on this run (offline, or not yet connected),
+`None`, `Advisory`, `Required` - `Context.clientUpdate()` is the verdict
+itself, or null, and `Context.requireCurrentBuild()` throws
+`ClientUpdate.UpdateRequiredException` for code that would rather catch.
+
 ## Telemetry
 
 The engine can report to the DimensionX platform: a marker when a session
