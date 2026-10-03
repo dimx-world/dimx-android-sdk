@@ -74,3 +74,11 @@ Context.initializeWithConfig(getApplicationContext(), config);
 What is sent is tied to an install id the SDK mints (never a device
 identifier) and the signed-in DimensionX account. Nothing is sent while it
 is off; the app's own crash reporter is unaffected.
+
+## The Live View cover
+
+While the camera starts - a second or two on some phones - the AR screen
+shows the engine's Live View cover, the DimensionX animation on white, in
+place of a black surface, and the screen that opened Live View cross-fades
+into it. The cover fades away with the camera's first frame. Nothing to
+configure: the cover ships with the engine.
